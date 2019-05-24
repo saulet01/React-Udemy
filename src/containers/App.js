@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
+import Cockpit from '../components/Cockipit/Cockpit';
+import Persons from '../components/Persons/Persons';
 import './App.css';
 
 class App extends Component {
@@ -46,52 +48,22 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-
     let persons = null;
 
     if(this.state.showPersons){
-      persons = (
-        <div>
-          { this.state.persons.map( (person, index) => {
-            return <Person
-              click ={ () => this.deletePersonHandler(index) }
-              name = { person.name }
-              age = { person.age}
-              key = { person.id }
-              changed = { (event) => this.nameChnagedHandler(event, person.id) }
-            />
-          })}
-        </div>
-      );
-      style.backgroundColor = 'red';
+      persons = <Persons
+            persons = {this.state.persons}
+            changed = {this.nameChnagedHandler}
+            clicked = {this.deletePersonHandler} />;
     }
-
-    const classes = [];
-    if(this.state.persons.length <= 2){
-      classes.push('red'); //classes = ['red']
-    }
-    if(this.state.persons.length <= 1){
-      classes.push('bold'); //classes = ['red', 'bold']
-    }
-
-    // red bold
 
     return (
         <div className="App">
-          <h1>React App</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-          <button
-            style = { style }
-            onClick = { this.togglePersonHandler }>Toggle Persons
-          </button>
+          <Cockpit
+            showPerson = {this.state.showPersons}
+            persons = {this.state.persons}
+            clicked = {this.togglePersonHandler}
+          />
           { persons }
         </div>
     );
